@@ -21,19 +21,21 @@ function renderCat() {
     const isGif = gifsOption.checked;
     if (document.querySelector('input[type="radio"]:checked')) { 
         const selectedRadio = document.querySelector('input[type="radio"]:checked').value
-        console.log(selectedRadio, isGif);
+        // console.log(selectedRadio, isGif);
 
-        //filter the cats from catarray that have the mood
-        const selectedCats = catsData.filter(function (cat) {
-            if(isGif)
-                return cat.emotionTags.includes(selectedRadio) && cat.isGif
-            else
-                return cat.emotionTags.includes(selectedRadio)
-        })
+        const selectedCats = getMatchedArray(selectedRadio, isGif);
+        
 
         //get single object of cats 
-        console.log(selectedCats);
-        if (selectedCats.length === 1) {
+        //console.log(selectedCats);
+        getSingleCat(selectedCats)
+        
+    }
+    
+}
+
+function getSingleCat(selectedCats) {
+    if (selectedCats.length === 1) {
             // console.log(selectedCats[0]);
             memeModalInner.innerHTML = 
             `
@@ -59,8 +61,17 @@ function renderCat() {
             memeModal.style.display = 'flex'
 
         }
-    }
-    
+}
+
+function getMatchedArray(selectedRadio,isGif) {
+    //filter the cats from catarray that have the mood
+        const selectedCats = catsData.filter(function (cat) {
+            if(isGif)
+                return cat.emotionTags.includes(selectedRadio) && cat.isGif
+            else
+                return cat.emotionTags.includes(selectedRadio)
+        })
+    return selectedCats
 }
 
 function highlightRadio(e) {
